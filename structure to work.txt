@@ -1,0 +1,5 @@
+- Create website
+- Database connection
+- Create account
+- Get QR Code
+- Others
