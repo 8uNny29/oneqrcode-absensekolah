@@ -18,14 +18,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    // check if the username and password match a record in the database
-    $sql = "SELECT * FROM users_data WHERE username='$username' AND password='$password'";
+    // check if the username already exists in the database
+    $sql = "SELECT * FROM users_data WHERE username='$username'";
     $result = $conn->query($sql);
 
-    if ($result->num_rows == 1) {
-        echo "Login successful!";
+    if ($result->num_rows > 0) {
+        echo "Username already exists. Please choose a different username.";
     } else {
-        echo "Invalid username or password. Please try again.";
+        // insert the new user details into the database
+        $sql = "INSERT INTO users_data (username, password) VALUES ('$username', '$password')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "Registration successful!";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
     }
 }
 
