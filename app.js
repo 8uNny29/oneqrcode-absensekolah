@@ -4,12 +4,12 @@ const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
 const http = require('http');
 const path = require('path');
-var parseUrl = require('body-parser');
-var mysql = require('mysql');
+const parseUrl = require('body-parser');
+const mysql = require('mysql');
 const app = express();
 
 // Connect to MySQL database
-var db = mysql.createConnection({
+const db = mysql.createConnection({
     host: "localhost",
     user: "root", // replace with your MySQL username
     password: "", // replace with your MySQL password
@@ -46,14 +46,19 @@ app.get("/login", (req, res) => {
 
 app.get('/css/styles.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'styles.css'));
-  });
+});
+
+app.get('/dashboard', (req, res) => {
+    res.sendFile(__dirname + '/public/dashboard.html');
+});
+
 
 app.post("/register", (req, res) => {
     let formData = req.body;
-    var firstName = req.body.firstName;
-    var lastName = req.body.lastName;
-    var userName = req.body.userName;
-    var password = req.body.password;
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
+    let userName = req.body.userName;
+    let password = req.body.password;
 
     db.query(`SELECT * FROM users_data WHERE username = '${userName}'`, function (err, result) {
         if(err){
@@ -72,15 +77,15 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/dashboard", (req, res) => {
-    var userName = req.body.userName;
-    var password = req.body.password;
+    let userName = req.body.userName;
+    let password = req.body.password;
 
     db.query(`SELECT * FROM users_data WHERE username = '${userName}' AND password = '${password}'`, function (err, result) {
         if(err){
             console.log(err);
         };
         if(result.length > 0){
-            // Initialize session variables
+            // Initialize session constiables
             req.session.firstname = result[0].firstname;
             req.session.lastname = result[0].lastname;
             req.session.username = result[0].username;
