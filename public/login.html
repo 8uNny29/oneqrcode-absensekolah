@@ -1,30 +1,31 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABSEN SEKOLAH - QRCODE</title>
-    <link rel="stylesheet" href="/css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABSEN - SMK BINA SISWA 2 CILILIN</title>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
-    <div class="container">
-        <section id="content">
-            <form action="/login" method="post">
-                <h1>Masuk</h1>
-                <div>
-                    <input type="text" placeholder="Username" required="" name="username" id="username" />
-                </div>
-                <div>
-                    <input type="password" placeholder="Password" required="" name="password" id="password" />
-                </div>
-                <div>
-                    <input type="submit" value="Masuk" />
-                    <a href="#">Lupa akun?</a>
-                    <a href="/">Register</a>
-                </div>
-            </form><!-- form -->
-        </section><!-- content -->
-    </div><!-- container -->
-    <script src=""></script>
+    <header>
+        <h1>SMK BINA SISWA 2 CILILIN - ABSEN</h1>
+    </header>
+    <div class="login-page" id="nama-form">
+        <div class="form">
+        <h1>ABSEN SMK BINA SISWA 2 CILILIN</h1>
+        <form class="login-form" action="/login" method="post">
+            <input type="text" class="" id="username" name="username" placeholder="Username" required>
+            <input type="password" class="" id="password" name="password" placeholder="Password" required>
+            <button type="submit" class="" id="minta-qrcode">LOGIN</button>
+        </form>
+        <br><br><a type="submit" href="/">Kembali ke Beranda</a>
+        </div>
+    </div>
+    <footer>
+        <p>Copyright © 2024 by 8uNny29</p>
+    </footer>
+    <script src="/app.js"></script>
 </body>
 </html>

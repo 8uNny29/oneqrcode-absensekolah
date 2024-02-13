@@ -1,7 +1,27 @@
 body {
-    font-family: Arial, sans-serif;
+    background-color: grey;
     margin: 0;
     padding: 0;
+}
+
+h1 {
+	color: burlywood;
+	font-family: "Roboto", sans-serif;
+	text-shadow:
+	-1px -1px 0 #000,  
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+}
+
+p {
+	color: burlywood;
+	font-family: "Roboto", sans-serif;
+	text-shadow:
+	-1px -1px 0 #000,  
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
 }
 
 header {
@@ -9,6 +29,7 @@ header {
     color: white;
     padding: 1px 0;
     text-align: center;
+    font-size: 7px;
 }
 
 main {
@@ -23,34 +44,47 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+    font-size: 13px;
 }
 
-.container {
-    text-align: center;
+.page {
+	width: 360px;
+	padding: 8% 0 0;
+	margin: auto;
 }
 
-
-* {
-    box-sizing: border-box;
+.form {
+	font-family: "Roboto", sans-serif;
+	position: relative;
+	z-index: 1;
+	background: #FFFFFF;
+	max-width: 360px;
+	margin: 0 auto 100px;
+	padding: 45px;
+	text-align: center;
+	box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.2), 0 20px 20px 0 rgba(0, 0, 0, 0.24);
 }
 
 .button-login {
-    background-color: #199319;
-    color: white;
-    padding: 15px 25px;
-    text-decoration: none;
-  }
-.button-login:hover {
-    background-color: #086d08;
-    color: white;
-    padding: 15px 25px;
-    text-decoration: none;
-  }
-.button-login:focus {
-    background-color: #00ff00;
-    border-color: aqua;
-    color: white;
-    padding: 15px 25px;
-    text-decoration: none;
-  }
-  
+    font-family: "Roboto", sans-serif;
+	text-transform: uppercase;
+	outline: 0;
+	background: #4CAF50;
+	width: 100%;
+	border: 0;
+	padding: 15px;
+	color: #FFFFFF;
+	font-size: 14px;
+	-webkit-transition: all 0.3 ease;
+	transition: all 0.3 ease;
+	cursor: pointer;
+	text-shadow:
+	-1px -1px 0 #000,  
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+}
+
+.button-login:hover,.button-login:active,.button-login:focus {
+    background: #43A047;
+}

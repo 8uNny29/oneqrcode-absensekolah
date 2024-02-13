@@ -90,6 +90,24 @@ app.get('/dashboard', (req, res) => {
   }
 });
 
+app.get('/logout', (req, res, next) => {
+  if (req.session.loggedin) {
+    req.session.user = null;
+    req.session.save(function (err) {
+      if (err) next(err);
+
+      req.session.regenerate(function (err) {
+        if (err) next(err);
+        res.redirect('/login');
+        console.log('BERHASIL');
+      });
+    });
+  } else {
+    console.log('GAGAL');
+    res.redirect('/login');
+  }
+});
+
 // Start server
 const server = http.createServer(app);
 server.listen(1511, () => {
