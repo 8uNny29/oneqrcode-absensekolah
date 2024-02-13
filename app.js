@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
 const http = require('http');
 const path = require('path');
-const parseUrl = require('body-parser');
+const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const app = express();
 
@@ -15,6 +15,7 @@ const db = mysql.createConnection({
     password: "", // replace with your MySQL password
     database: "oneqrcode"
 });
+
 db.connect(function(err) {
     if (err) throw err;
     console.log("Connected to MySQL database");
@@ -29,73 +30,76 @@ app.use(sessions({
 }));
 
 app.use(cookieParser());
-app.use(parseUrl.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '')));
 
 // Serve static files
 app.use(express.static('public'));
 
-// Routes
 app.get('/', (req, res) => {
+    res.send('Welcome to the homepage!');
+});
+  
+app.get('/register', (req, res) => {
     res.sendFile(__dirname + '/public/register.html');
 });
-
-app.get("/login", (req, res) => {
-    res.sendFile(__dirname + "/public/login.html");
+  
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/public/login.html');
 });
-
-app.get('/css/styles.css', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'styles.css'));
+  
+app.post('/register', bodyParser.urlencoded({ extended: false }), (req, res) => {
+    const { firstname, lastname, username, password } = req.body;
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root', // your MySQL user
+      password: 'password', // your MySQL password
+      database: 'myform',
 });
-
-app.get('/dashboard', (req, res) => {
-    res.sendFile(__dirname + '/public/dashboard.html');
-});
-
-
-app.post("/register", (req, res) => {
-    let formData = req.body;
-    let firstName = req.body.firstName;
-    let lastName = req.body.lastName;
-    let userName = req.body.userName;
-    let password = req.body.password;
-
-    db.query(`SELECT * FROM users_data WHERE username = '${userName}'`, function (err, result) {
-        if(err){
-            console.log(err);
-        };
-        if(result.length > 0){
-            res.sendFile(__dirname + '/public/failReg.html');
-        }else{
-            db.query('INSERT INTO users_data (fname, lname, username, password) VALUES (?,?,?,?)', [firstName, lastName, userName, password], function (err, result) {
-                if (err) throw err;
-                console.log("1 record inserted");
-                res.sendFile(__dirname + '/public/successReg.html');
-            });
-        }
+  
+connection.connect((err) => {
+      if (err) throw err;
+      const sql = 'INSERT INTO users (firstname, lastname, username, password) VALUES (?, ?, ?, ?)';
+      connection.query(sql, [firstname, lastname, username, password], (err, result) => {
+        if (err) throw err;
+        res.send('Registration successful!');
+      });
     });
 });
-
-app.post("/dashboard", (req, res) => {
-    let userName = req.body.userName;
-    let password = req.body.password;
-
-    db.query(`SELECT * FROM users_data WHERE username = '${userName}' AND password = '${password}'`, function (err, result) {
-        if(err){
-            console.log(err);
-        };
-        if(result.length > 0){
-            // Initialize session constiables
-            req.session.firstname = result[0].firstname;
-            req.session.lastname = result[0].lastname;
-            req.session.username = result[0].username;
-
-            res.sendFile(__dirname + '/public/dashboard.html');
-        }else{
-            res.sendFile(__dirname + '/public/failLogin.html');
+  
+app.post('/login', bodyParser.urlencoded({ extended: false }), (req, res) => {
+    const { username, password } = req.body;
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root', // your MySQL user
+      password: 'password', // your MySQL password
+      database: 'myform',
+});
+  
+connection.connect((err) => {
+      if (err) throw err;
+      const sql = 'SELECT * FROM users WHERE username = ? AND password = ?';
+      connection.query(sql, [username, password], (err, result) => {
+        if (err) throw err;
+        if (result.length > 0) {
+          req.session.loggedin = true;
+          req.session.username = username;
+          res.send('Login successful!');
+        } else {
+          res.send('Invalid credentials!');
         }
+      });
     });
 });
+  
+  app.get('/dashboard', (req, res) => {
+    if (req.session.loggedin) {
+      res.send(`Welcome to the dashboard, ${req.session.username}!`);
+    } else {
+      res.send('Please log in to access the dashboard.');
+    }
+  });
+
 
 // Start server
 const server = http.createServer(app);
