@@ -48,6 +48,10 @@ app.get('/login', (req, res) => {
   res.sendFile(__dirname + '/public/login.html');
 });
 
+app.get('/qrreader.js', (req, res) => {
+  res.sendFile(__dirname + '/js/qrreader.js');
+});
+
 app.get('/home', (req, res) => {
   if (req.session.loggedin) {
     res.sendFile(__dirname + '/public/home.html');
@@ -58,7 +62,8 @@ app.get('/home', (req, res) => {
 
 app.post('/register', bodyParser.urlencoded({ extended: false }), (req, res) => {
   const { firstname, lastname, username, password } = req.body;
-  const sql = 'INSERT INTO accounts (firstname, lastname, username, password) VALUES (?, ?, ?, ?)';
+  const sql = 'INSERT INTO accounts (firstname, lastname, username, password) VALUES (?,?,?,?)';
+
   db.query(sql, [firstname, lastname, username, password], (err, result) => {
     if (err) throw err;
     res.send('Registration successful!');
@@ -105,6 +110,17 @@ app.get('/logout', (req, res, next) => {
   } else {
     console.log('GAGAL');
     res.redirect('/login');
+  }
+});
+
+app.post('/scanned', (req, res, next) => {
+  const dataScanned = req.body.decodeText;
+  const username = req.session.username;
+
+  if (req.session.loggedin) {
+    console.log(`(${username}) berhasil memindai qrcode (${dataScanned})`);
+  } else {
+    console.log(`${username}) gagal memindai qrcode`);
   }
 });
 

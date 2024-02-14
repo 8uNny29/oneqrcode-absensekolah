@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ABSEN - SMK BINA SISWA 2 CILILIN</title>
+	<link rel="stylesheet" type="text/css" href="css/styles-home.css">
+</head>
+<body>
+	<header>
+        <h1>SMK BINA SISWA 2 CILILIN - ABSEN</h1>
+    </header>
+    <div class="page">
+        <div class="form">
+            <div class="container">
+                <h1>Scan QR Codes</h1>
+                <div class="section">
+                    <div id="my-qr-reader">
+                    </div>
+                </div>
+            </div>
+            
+            <p>Halo teman, selamat datang di website sekolah (absen).</p>
+            <p>Klik "logout" untuk keluar yaaa<br><br>⇓⇓⇓⇓⇓⇓⇓⇓.</p>
+            <br>
+            <form action="/logout" method="get">
+                <input class="button-login" type="submit" value="LOGOUT" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <p>Copyright © 2024 by 8uNny29</p>
+    </footer>
+    <script
+        src="https://unpkg.com/html5-qrcode">
+    </script>
+    <script src="/js/qrreader.js"></script>
+</body>
+</html>
